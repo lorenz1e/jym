@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "639860694849",
+    "project_id": "jym-c9500",
+    "storage_bucket": "jym-c9500.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639860694849:android:a2eaee89a82de86bb5cbc0",
+        "android_client_info": {
+          "package_name": "com.example.jym"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639860694849-2fc6phrh2p5fkii72v3uq255mp3khcgp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLB_dbHsFlvgNbtKeo2d3ZrpPoX8Yd2mU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639860694849-2fc6phrh2p5fkii72v3uq255mp3khcgp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
