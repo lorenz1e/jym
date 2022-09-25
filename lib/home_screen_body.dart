@@ -9,7 +9,6 @@ import 'create_screen.dart';
 import 'create_screen.dart';
 import 'home_screen.dart';
 
-123
 final user = FirebaseAuth.instance.currentUser!;
 
 class HomeScreenBody extends StatefulWidget {
