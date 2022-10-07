@@ -24,13 +24,13 @@ class _HomeState extends State<Homepage> {
           decoration: BoxDecoration(
             boxShadow: [
             BoxShadow(
-                color: Color.fromARGB(255, 0, 0, 0).withOpacity(.3),
+                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(.3),
                 blurRadius: 8,
-                offset: Offset(0, 8),
+                offset: const Offset(0, 8),
                 spreadRadius: -3)
           ],
             borderRadius: BorderRadius.circular(200),
-            color: Colors.blue[500],
+            color: Theme.of(context).primaryColor
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -43,15 +43,15 @@ class _HomeState extends State<Homepage> {
                     onPressed: () {
                       Navigator.push(context, _pageRouteSettingsScreen());
                     }, 
-                    icon: Icon(Icons.settings), 
+                    icon: const Icon(Icons.settings, color: Colors.white,), 
                     iconSize: 24,
-                    color: Colors.white,
+               
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.add), 
+                  icon: const Icon(Icons.add, color: Colors.white,), 
                   iconSize: 26,
-                  color: Colors.white,
+                  
                   onPressed: () {
                     Navigator.push(context, _pageRouteCreateScreen());
                   }
@@ -61,8 +61,7 @@ class _HomeState extends State<Homepage> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        backgroundColor: Color.fromARGB(255, 252, 252, 255),
-        body: HomeScreenBody()
+        body: const HomeScreenBody()
       ),
     );
   }
@@ -73,7 +72,7 @@ class _HomeState extends State<Homepage> {
 Route _pageRouteCreateScreen() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-      CreateScreen(),
+      const CreateScreen(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);
       const end = Offset.zero;
@@ -92,7 +91,7 @@ Route _pageRouteCreateScreen() {
 Route _pageRouteSettingsScreen() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-      SettingsScreen(),
+      const SettingsScreen(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);
       const end = Offset.zero;
