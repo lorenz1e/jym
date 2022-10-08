@@ -31,94 +31,80 @@ class MyApp extends StatelessWidget {
         splitScreenMode: false,
         builder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
-
-
           theme: ThemeData(
-            useMaterial3: true,
-            primaryTextTheme: const TextTheme(
-                headline1: TextStyle(
-                    fontSize: 36.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
-                headline2: TextStyle(
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black)),
-            cardColor: Colors.white,
-            fontFamily: appFont,
-            primaryColor: Colors.blue,
-            primarySwatch: Colors.blue,
-            buttonColor: Colors.grey[300],
-            backgroundColor: const Color.fromARGB(255, 247, 247, 247),
-            scaffoldBackgroundColor: const Color.fromARGB(255, 247, 247, 247),
-            brightness: Brightness.light,
-            iconTheme: const IconThemeData(color: Color.fromARGB(255, 0, 0, 0)),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
-                foregroundColor: Colors.white,
+              useMaterial3: true,
+              primaryTextTheme: const TextTheme(
+                  headline1: TextStyle(
+                      fontSize: 36.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                  headline2: TextStyle(
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black)),
+              cardColor: Colors.white,
+              fontFamily: appFont,
+              primaryColor: Colors.blue,
+              primarySwatch: Colors.blue,
+              buttonColor: Colors.grey[300],
+              backgroundColor: const Color.fromARGB(255, 247, 247, 247),
+              scaffoldBackgroundColor: const Color.fromARGB(255, 247, 247, 247),
+              brightness: Brightness.light,
+              iconTheme:
+                  const IconThemeData(color: Color.fromARGB(255, 0, 0, 0)),
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: TextButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  foregroundColor: Colors.white,
+                ),
               ),
-            ),
-            textTheme: TextTheme(
-              headlineLarge: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 38,
-                  color: Colors.black,
-                  fontFamily: appFont
-                  ),
-              headlineMedium: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 32,
-                  color: Colors.black,
-                  fontFamily: appFont),
+              textTheme: TextTheme(
+                headlineLarge: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 38,
+                    color: Colors.black,
+                    fontFamily: appFont),
+                headlineMedium: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 32,
+                    color: Colors.black,
+                    fontFamily: appFont),
+                headlineSmall: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 26,
+                    color: Colors.black,
+                    fontFamily: appFont),
+                displayLarge: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontFamily: appFont,
+                    color: Colors.black,
+                    fontSize: 22),
+                displayMedium: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontFamily: appFont,
+                    color: Colors.black,
+                    fontSize: 20),
+                displaySmall: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontFamily: appFont,
+                    color: Colors.black,
+                    fontSize: 16),
+              )),
 
-              headlineSmall: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 26,
-                  color: Colors.black,
-                  fontFamily: appFont),
-              displayLarge: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontFamily: appFont,
-                  color: Colors.black,
-                  fontSize: 22),
-              displayMedium: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: appFont,
-                  color: Colors.black,
-                  fontSize: 20),
-              displaySmall: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontFamily: appFont,
-                  color: Colors.black,
-                  fontSize: 16),
-            )
-          ),
-
-
-          darkTheme: ThemeData(
+          /*    darkTheme: ThemeData(
             useMaterial3: true,
-            primaryTextTheme: const TextTheme(
-                headline1: TextStyle(
-                    fontSize: 36.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
-                headline2: TextStyle(
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black)),
             cardColor: Colors.grey[900],
             fontFamily: appFont,
-            primaryIconTheme: IconThemeData(
+            iconTheme: IconThemeData(
               color: Colors.white
             ),
+            dialogBackgroundColor: Color.fromARGB(255, 25, 25, 25),
             primaryColor: Colors.blue,
             primarySwatch: Colors.blue,
             buttonColor: Colors.grey[900],
             backgroundColor: Color.fromARGB(255, 25, 25, 25),
             scaffoldBackgroundColor: Color.fromARGB(255, 25, 25, 25),
             brightness: Brightness.light,
-            iconTheme: const IconThemeData(color: Color.fromARGB(255, 0, 0, 0)),
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: TextButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor,
@@ -158,8 +144,8 @@ class MyApp extends StatelessWidget {
                   fontFamily: appFont,
                   color: Colors.white,
                   fontSize: 16),
-            )
-          ),
+                ),
+            ), */
           home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {

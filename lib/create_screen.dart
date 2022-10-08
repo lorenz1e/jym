@@ -11,7 +11,11 @@ class CreateScreen extends StatefulWidget {
 }
 
 class _CreateScreenState extends State<CreateScreen> {
-  var exerciseButtonText = "Exercise";
+  var errorMsg = "";
+  var exerciseButtonText = "Select";
+  var exerciseButtonTextColor = Colors.black;
+
+  var exerciseButtonColor = Colors.grey[300];
 
   var weightsUnitButtonText = "kg";
 
@@ -40,20 +44,26 @@ class _CreateScreenState extends State<CreateScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
-                child: ElevatedButton.icon(
+                child: OutlinedButton.icon(
                   onPressed: () {
                     exercisePopUp();
                   },
-                  label: Text(exerciseButtonText,
-                  style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white),),
-                  icon: const Icon(Icons.sports_gymnastics),
+                  label: Text(
+                    exerciseButtonText,
+                    style: Theme.of(context)
+                        .textTheme
+                        .displayMedium!
+                        .copyWith(color: exerciseButtonTextColor),
+                  ),
+                  icon: Icon(Icons.sports_gymnastics,
+                      color: exerciseButtonTextColor),
                   style: TextButton.styleFrom(
                     elevation: 0,
                     minimumSize: const Size(
                       double.infinity,
                       60,
                     ),
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: exerciseButtonColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
@@ -85,12 +95,11 @@ class _CreateScreenState extends State<CreateScreen> {
                               obscureText: false,
                               maxLength: 6,
                               decoration: const InputDecoration(
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                focusedErrorBorder: InputBorder.none,
-                                counterText: ""
-                              ),
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  focusedErrorBorder: InputBorder.none,
+                                  counterText: ""),
                               style: Theme.of(context).textTheme.displayMedium,
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
@@ -125,7 +134,6 @@ class _CreateScreenState extends State<CreateScreen> {
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-
                               //    SETS
 
                               Expanded(
@@ -135,13 +143,13 @@ class _CreateScreenState extends State<CreateScreen> {
                                     controller: controllerSets,
                                     autofocus: false,
                                     obscureText: false,
-                                    style: Theme.of(context).textTheme.displayMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium,
                                     textAlign: TextAlign.center,
                                     maxLength: 4,
-                                    
                                     cursorColor: Theme.of(context).primaryColor,
                                     decoration: const InputDecoration(
-                                      
                                         border: InputBorder.none,
                                         counterText: ""),
                                     keyboardType: TextInputType.number,
@@ -156,10 +164,11 @@ class _CreateScreenState extends State<CreateScreen> {
                                     autofocus: false,
                                     obscureText: false,
                                     readOnly: true,
-                                    style: Theme.of(context).textTheme.displayMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium,
                                     textAlign: TextAlign.center,
                                     decoration: const InputDecoration(
-                                      
                                         border: InputBorder.none),
                                     keyboardType: TextInputType.number,
                                   ),
@@ -180,10 +189,9 @@ class _CreateScreenState extends State<CreateScreen> {
                         child: Container(
                           width: 100,
                           height: 60,
-                         
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                             color: Theme.of(context).buttonColor,
+                            color: Theme.of(context).buttonColor,
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -196,13 +204,13 @@ class _CreateScreenState extends State<CreateScreen> {
                                     maxLength: 4,
                                     autofocus: false,
                                     obscureText: false,
-                                    style: Theme.of(context).textTheme.displayMedium,
-                                          
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium,
                                     textAlign: TextAlign.center,
                                     decoration: const InputDecoration(
                                         border: InputBorder.none,
-                                        counterText: ""
-                                    ),
+                                        counterText: ""),
                                     keyboardType: TextInputType.number,
                                   ),
                                 ),
@@ -217,7 +225,9 @@ class _CreateScreenState extends State<CreateScreen> {
                                     readOnly: true,
                                     decoration: const InputDecoration(
                                         border: InputBorder.none),
-                                    style: Theme.of(context).textTheme.displayMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium,
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
                                   ),
@@ -231,6 +241,7 @@ class _CreateScreenState extends State<CreateScreen> {
                   ],
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
                 child: Row(
@@ -249,36 +260,57 @@ class _CreateScreenState extends State<CreateScreen> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              icon: const Icon(Icons.arrow_back),
+                              icon: Icon(Icons.arrow_back,
+                                  color: Theme.of(context).iconTheme.color),
                             )),
                       ),
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
-                        createItem(
-                          exercise: exerciseButtonText,
-                          weight: controllerWeights.text,
-                          unit: selectedItem,
-                          reps: controllerReps.text,
-                          sets: controllerSets.text,
-                        );
-                        updateUserData();
-                        Navigator.pop(context);
+                        if (exerciseButtonText == "Select") {
+                          setState(() {
+                            errorMsg = "Select an Exercise";
+                          });
+                        } else {
+                          createItem(
+                            exercise: exerciseButtonText,
+                            weight: controllerWeights.text,
+                            unit: selectedItem,
+                            reps: controllerReps.text,
+                            sets: controllerSets.text,
+                          );
+                          updateUserData();
+                          Navigator.pop(context);
+                        }
                       },
                       label: const Text("Create"),
                       icon: const Icon(Icons.add),
                       style: TextButton.styleFrom(
-                          elevation: 0,
-                          minimumSize: const Size(
-                            160,
-                            60,
-                          ),
-                          backgroundColor: Theme.of(context).primaryColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
-                          textStyle: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white),)
+                        elevation: 0,
+                        minimumSize: const Size(
+                          160,
+                          60,
+                        ),
+                        backgroundColor: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25)),
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .displayMedium!
+                            .copyWith(color: Colors.white),
+                      ),
                     ),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  errorMsg,
+                  style: Theme.of(context)
+                      .textTheme
+                      .displaySmall!
+                      .copyWith(color: Theme.of(context).errorColor),
                 ),
               ),
             ],
@@ -300,7 +332,7 @@ class _CreateScreenState extends State<CreateScreen> {
               padding: const EdgeInsets.only(bottom: 10, top: 20),
               child: Text(
                 "Select",
-                style: Theme.of(context).textTheme.headline2,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
             Expanded(
@@ -309,11 +341,18 @@ class _CreateScreenState extends State<CreateScreen> {
                 itemCount: templates.length,
                 itemBuilder: (BuildContext context, int index) {
                   return (ListTile(
-                    title: Text(templates[index], style: Theme.of(context).textTheme.labelMedium,),
+                   
+                    title: Text(
+                      templates[index],
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
                     leading: const Icon(Icons.sports_gymnastics),
                     onTap: () {
                       setState(() {
                         exerciseButtonText = (templates[index]);
+                        exerciseButtonColor = Colors.blue;
+                        exerciseButtonTextColor = Colors.white;
+                        errorMsg = "";
                       });
                       Navigator.pop(context);
                     },
@@ -344,13 +383,13 @@ class _WeightDropdownState extends State<WeightDropdown> {
     return Container(
       height: 60,
       decoration: BoxDecoration(
-          color: Theme.of(context).buttonColor, borderRadius: BorderRadius.circular(25)),
+          color: Theme.of(context).buttonColor,
+          borderRadius: BorderRadius.circular(25)),
       child: Padding(
-
         padding: const EdgeInsets.all(15.0),
         child: Center(
           child: DropdownButton<String>(
-            iconEnabledColor: Colors.black,
+            iconEnabledColor: Theme.of(context).iconTheme.color,
             value: selectedItem,
             underline: const SizedBox(),
             borderRadius: BorderRadius.circular(25),

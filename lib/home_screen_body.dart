@@ -409,7 +409,8 @@ class deletePopUp extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25)),
               textStyle: Theme.of(context).textTheme.displaySmall,
-              foregroundColor: Colors.black),
+              foregroundColor: Colors.black
+            ),
           onPressed: () {
             Navigator.pop(context);
           },

@@ -36,7 +36,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     "Information",
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
-                  icon: const Icon(Icons.info),
+                  icon: Icon(Icons.info,
+                      color: Theme.of(context).iconTheme.color),
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black,
                     minimumSize: const Size(
@@ -55,13 +56,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: TextButton.icon(
                   onPressed: () {
                     showDialog(
-                        context: context, builder: (context) => const signOutPopUp());
+                        context: context,
+                        builder: (context) => const signOutPopUp());
                   },
                   label: Text(
                     "Sign Out",
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
-                  icon: const Icon(Icons.logout),
+                  icon: Icon(Icons.logout,
+                      color: Theme.of(context).iconTheme.color),
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black,
                     minimumSize: const Size(
@@ -82,12 +85,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   width: 55,
                   height: 55,
                   decoration: BoxDecoration(
-                      color: Theme.of(context).buttonColor, shape: BoxShape.circle),
+                      color: Theme.of(context).buttonColor,
+                      shape: BoxShape.circle),
                   child: IconButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: const Icon(Icons.arrow_back),
+                    icon: Icon(Icons.arrow_back,
+                        color: Theme.of(context).iconTheme.color),
                   ),
                 ),
               ),
@@ -104,10 +109,14 @@ class signOutPopUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Theme.of(context).dialogBackgroundColor,
       title:
           Text("Sign Out?", style: Theme.of(context).textTheme.headlineSmall),
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25))),
+        borderRadius: BorderRadius.all(
+          Radius.circular(25),
+        ),
+      ),
       actions: [
         TextButton(
           style: TextButton.styleFrom(

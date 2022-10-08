@@ -91,3 +91,6 @@ Future deleteItem(name) async {
       .delete();
 }
 
+Future EmailLogin({required email, required password}) async {
+  FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+}
