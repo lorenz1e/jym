@@ -1,12 +1,10 @@
-import 'package:JYM/data.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'google_sign_in.dart';
+import '../backend/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'main.dart';
+import '../main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -35,6 +33,7 @@ class SignUpScreen extends StatelessWidget {
                   final provider =
                       Provider.of<GoogleSignInProvider>(context, listen: false);
                   provider.googleLogin();
+                 
                 },
                 label: const Text(
                   "Sign Up with Google",
@@ -53,7 +52,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
             ),
-         /*   Padding(
+            /*   Padding(
               padding: const EdgeInsets.fromLTRB(30, 0, 30, 20),
               child: TextButton.icon(
                 onPressed: () {
@@ -111,19 +110,26 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-final controllerEmail = TextEditingController();
-final controllerPassword= TextEditingController();
-
-class EmailLoginPopUp extends StatelessWidget {
-
+class EmailLoginPopUp extends StatefulWidget {
   const EmailLoginPopUp({super.key});
 
+  @override
+  State<EmailLoginPopUp> createState() => _EmailLoginPopUpState();
+}
+
+class _EmailLoginPopUpState extends State<EmailLoginPopUp> {
+  String errorMsg = "";
+  final controllerEmail = TextEditingController();
+  final controllerPassword = TextEditingController();
+  bool _obscureText = true;
+  String _hintText = "Password";
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Theme.of(context).dialogBackgroundColor,
       title: Text("Login with Email",
-          style: Theme.of(context).textTheme.headlineSmall),
+          style: Theme.of(context).textTheme.displayLarge),
+      contentPadding: EdgeInsets.only(top: 30, right: 20, left: 20, bottom: 0),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(25),
@@ -145,27 +151,30 @@ class EmailLoginPopUp extends StatelessWidget {
                 Expanded(
                   child: Align(
                     alignment: const AlignmentDirectional(0, 0),
-                    child: TextFormField(
-                      controller: controllerEmail,
-                      
-                      autofocus: false,
-                      obscureText: false,
-                      style: Theme.of(context).textTheme.displaySmall,
-                      textAlign: TextAlign.center,
-                      decoration: const InputDecoration(
-                          border: InputBorder.none, counterText: ""),
-                      keyboardType: TextInputType.emailAddress,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: TextFormField(
+                        controller: controllerEmail,
+                        autofocus: true,
+                        textInputAction: TextInputAction.next,
+                        obscureText: false,
+                        style: Theme.of(context).textTheme.displaySmall,
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            counterText: "",
+                            hintText: "Email"),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
                     ),
                   ),
                 ),
-                
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Container(
-              width: double.infinity,
+              width: 1000,
               height: 50,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
@@ -177,21 +186,49 @@ class EmailLoginPopUp extends StatelessWidget {
                   Expanded(
                     child: Align(
                       alignment: const AlignmentDirectional(0, 0),
-                      child: TextFormField(
-                        controller: controllerPassword,
-                        autofocus: false,
-                        obscureText: false,
-                        style: Theme.of(context).textTheme.displaySmall,
-                        textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
-                            border: InputBorder.none, counterText: ""),
-                        keyboardType: TextInputType.emailAddress,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 5),
+                        child: TextFormField(
+                          controller: controllerPassword,
+                          autofocus: false,
+                          maxLength: 20,
+                          obscureText: _obscureText,
+                          textInputAction: TextInputAction.send,
+                          onFieldSubmitted: (value) {},
+                          style: Theme.of(context).textTheme.displaySmall,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              counterText: "",
+                              hintText: _hintText),
+                          keyboardType: TextInputType.visiblePassword,
+                        ),
                       ),
                     ),
                   ),
-                  
+                  IconButton(
+                    icon: Icon(
+                        _obscureText ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(
+                        () {
+                          _obscureText = !_obscureText;
+                        },
+                      );
+                    },
+                  )
                 ],
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Text(
+              errorMsg,
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .displaySmall!
+                  .copyWith(color: Theme.of(context).errorColor),
             ),
           ),
         ],
@@ -221,7 +258,28 @@ class EmailLoginPopUp extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25)),
               textStyle: Theme.of(context).textTheme.displaySmall),
           onPressed: () {
-            EmailLogin(email: controllerEmail.text, password: controllerPassword.text);
+            setState(() {
+              errorMsg = "";
+            });
+
+            if (controllerEmail.text == "") {
+              setState(() {
+                errorMsg = "Please enter \nEmail and Password";
+              });
+              return;
+            } 
+
+            if (controllerPassword.text == "") {
+              setState(() {
+                errorMsg = "Please enter \nEmail and Password";
+              });
+              return;
+            }
+
+            EmailLogin(
+                email: controllerEmail.text,
+                password: controllerPassword.text,
+                context: context);
           },
           child: const Padding(
             padding: EdgeInsets.all(5.0),
@@ -237,6 +295,11 @@ class EmailLoginPopUp extends StatelessWidget {
   }
 }
 
-Future EmailLogin({required email, required password}) async {
-  FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+Future EmailLogin({required email, required password, context}) async {
+  
+  FirebaseAuth.instance
+      .signInWithEmailAndPassword(email: email, password: password);
+
+  final User? user =  FirebaseAuth.instance.currentUser;
+
 }

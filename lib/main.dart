@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'google_sign_in.dart';
+import 'backend/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'signup_screen.dart';
-import 'package:JYM/home_screen.dart';
-import 'data.dart';
+import 'screens/signup_screen.dart';
+import '../screens/home_screen.dart';
+import 'backend/data.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 String appFont = 'Poppins';
@@ -14,8 +14,8 @@ bool connectionStatus = false;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  updateUserData();
   runApp(const MyApp());
+  await UserData().update();
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              useMaterial3: true,
+              useMaterial3: false,
               primaryTextTheme: const TextTheme(
                   headline1: TextStyle(
                       fontSize: 36.0,
@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
                       color: Colors.black)),
               cardColor: Colors.white,
               fontFamily: appFont,
+              errorColor: Colors.red,
               primaryColor: Colors.blue,
               primarySwatch: Colors.blue,
               buttonColor: Colors.grey[300],
@@ -150,7 +151,9 @@ class MyApp extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                
                 return const Homepage();
+                
               } else {
                 return const SignUpScreen();
               }

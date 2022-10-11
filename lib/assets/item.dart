@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'home_screen_body.dart';
-import 'main.dart';
+import '../main.dart';
+import '../screens/home_screen.dart';
 
 // ITEM REGULAR
 
@@ -114,8 +114,8 @@ class Item extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      name,
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      "$name",
+                      style: name.length >  15 ? Theme.of(context).textTheme.displayLarge : Theme.of(context).textTheme.headlineMedium
                     )
                   ],
                 ),

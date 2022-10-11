@@ -110,6 +110,7 @@ class signOutPopUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Theme.of(context).dialogBackgroundColor,
+      
       title:
           Text("Sign Out?", style: Theme.of(context).textTheme.headlineSmall),
       shape: const RoundedRectangleBorder(
@@ -124,8 +125,10 @@ class signOutPopUp extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
             textStyle: Theme.of(context).textTheme.displaySmall,
-            foregroundColor: Colors.black
+            foregroundColor: Colors.black,
+            
           ),
+          
           onPressed: () {
             Navigator.pop(context);
           },

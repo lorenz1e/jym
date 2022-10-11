@@ -1,22 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'create_screen.dart';
 import 'package:flutter/material.dart';
-import 'item.dart';
+import 'settings_screen.dart';
+import '../backend/data.dart';
+import '../assets/item.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'data.dart';
-import 'create_screen.dart';
-import 'create_screen.dart';
+
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomeState();
+}
 
 final user = FirebaseAuth.instance.currentUser!;
 
-class HomeScreenBody extends StatefulWidget {
-  const HomeScreenBody({super.key});
+class _HomeState extends State<Homepage> {
 
-  @override
-  State<HomeScreenBody> createState() => _HomeScreenBodyState();
-}
-
-class _HomeScreenBodyState extends State<HomeScreenBody> {
-  final Stream<QuerySnapshot> items = FirebaseFirestore.instance
+   Stream<QuerySnapshot> items = FirebaseFirestore.instance
       .collection('users')
       .doc(user.uid)
       .collection('items')
@@ -24,92 +25,144 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: items,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        final data = snapshot.requireData;
-
-        if (data.size == 0) {
-          return Center(
-            child: Container(
-              width: 340,
-              height: 220,
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromARGB(255, 215, 215, 215),
-                        blurRadius: 20,
-                        offset: Offset(0, 3),
-                        spreadRadius: -3)
-                  ],
-                  color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Create An Exercise",
-                      style: Theme.of(context).textTheme.headlineSmall,
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: TextButton.icon(
-                        onPressed: () {
-                          Navigator.push(context, _pageRoute());
-                        },
-                        label: const Text(
-                          "Create",
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        icon: const Icon(Icons.add),
-                        style: TextButton.styleFrom(
-                          minimumSize: const Size(
-                            160,
-                            60,
-                          ),
-                          primary: Colors.white,
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
-                          textStyle: Theme.of(context).textTheme.displayMedium,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        }
-
-        if (snapshot.hasError) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (snapshot.hasData) {
-          return Padding(
-            padding: const EdgeInsets.all(00.0),
-            child: ListView.builder(
-              padding: const EdgeInsets.only(bottom: 100, top: 20),
-              itemCount: data.docs.length,
-              itemBuilder: (context, index) {
-                return Item(
-                  data.docs[index]['name'],
-                  data.docs[index]['weight'],
-                  data.docs[index]['unit'],
-                  data.docs[index]['reps'],
-                  data.docs[index]['sets'],
-                );
-              },
-            ),
-          );
-        }
-
-        return const Center(child: CircularProgressIndicator());
+    return WillPopScope(
+      onWillPop: () async {
+        return true;
       },
+      child: Scaffold(
+        floatingActionButton: Container(
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 8),
+                    spreadRadius: -3)
+              ],
+              borderRadius: BorderRadius.circular(200),
+              color: Theme.of(context).primaryColor),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(context, _pageRouteSettingsScreen());
+                    },
+                    icon: const Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                    ),
+                    iconSize: 24,
+                  ),
+                ),
+                IconButton(
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                    iconSize: 26,
+                    onPressed: () {
+                      Navigator.push(context, _pageRouteCreateScreen());
+                    }),
+              ],
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: StreamBuilder(
+          stream: items,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            final data = snapshot.requireData;
+
+            if (data.size == 0) {
+              return Center(
+                child: Container(
+                  width: 340,
+                  height: 220,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color.fromARGB(255, 215, 215, 215),
+                            blurRadius: 20,
+                            offset: Offset(0, 3),
+                            spreadRadius: -3)
+                      ],
+                      color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Create An Exercise",
+                          style: Theme.of(context).textTheme.headlineSmall,
+                          textAlign: TextAlign.center,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: TextButton.icon(
+                            onPressed: () {
+                              Navigator.push(context, _pageRoute());
+                            },
+                            label: const Text(
+                              "Create",
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            icon: const Icon(Icons.add),
+                            style: TextButton.styleFrom(
+                              minimumSize: const Size(
+                                160,
+                                60,
+                              ),
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25)),
+                              textStyle:
+                                  Theme.of(context).textTheme.displayMedium,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }
+
+            if (snapshot.hasError) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasData) {
+              return Padding(
+                padding: const EdgeInsets.all(00.0),
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 100, top: 20),
+                  itemCount: data.docs.length,
+                  itemBuilder: (context, index) {
+                    return Item(
+                      data.docs[index]['name'],
+                      data.docs[index]['weight'],
+                      data.docs[index]['unit'],
+                      data.docs[index]['reps'],
+                      data.docs[index]['sets'],
+                    );
+                  },
+                ),
+              );
+            }
+
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
+      ),
     );
   }
 }
@@ -391,6 +444,44 @@ void editItemPopUp(name, weight, unit, reps, sets, context,
   );
 }
 
+Route _pageRouteCreateScreen() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        const CreateScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+Route _pageRouteSettingsScreen() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        const SettingsScreen(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
 class deletePopUp extends StatelessWidget {
   var name1;
   deletePopUp({super.key, this.name1});
@@ -409,8 +500,7 @@ class deletePopUp extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25)),
               textStyle: Theme.of(context).textTheme.displaySmall,
-              foregroundColor: Colors.black
-            ),
+              foregroundColor: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
